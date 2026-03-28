@@ -22,6 +22,11 @@ Page({
     this.loadData();
   },
 
+  onPullDownRefresh() {
+    this.loadData();
+    wx.stopPullDownRefresh();
+  },
+
   /**
    * 加载数据
    */
@@ -47,6 +52,12 @@ Page({
         },
         recentPhotos: photos.slice(0, 6)
       });
+    } else {
+      this.setData({
+        currentParrot: null,
+        stats: { days: 0, photos: 0, trainings: 0 },
+        recentPhotos: []
+      });
     }
   },
 
@@ -54,6 +65,7 @@ Page({
    * 计算饲养天数
    */
   calculateDays(createdAt) {
+    if (!createdAt) return 0;
     const start = new Date(createdAt);
     const now = new Date();
     const diff = now - start;
@@ -83,9 +95,17 @@ Page({
    */
   takePhoto() {
     if (!this.data.currentParrot) {
-      wx.showToast({
-        title: '请先添加鹦鹉',
-        icon: 'none'
+      wx.showModal({
+        title: '提示',
+        content: '请先添加鹦鹉档案',
+        confirmText: '去添加',
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '/pages/profile/add-parrot/add-parrot'
+            });
+          }
+        }
       });
       return;
     }
@@ -126,22 +146,21 @@ Page({
   },
 
   /**
-   * 跳转到训练
-   */
-  goToTraining() {
-    wx.switchTab({
-      url: '/pages/training/training'
-    });
-  },
-
-  /**
    * 写日记
    */
   writeDiary() {
     if (!this.data.currentParrot) {
-      wx.showToast({
-        title: '请先添加鹦鹉',
-        icon: 'none'
+      wx.showModal({
+        title: '提示',
+        content: '请先添加鹦鹉档案',
+        confirmText: '去添加',
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '/pages/profile/add-parrot/add-parrot'
+            });
+          }
+        }
       });
       return;
     }

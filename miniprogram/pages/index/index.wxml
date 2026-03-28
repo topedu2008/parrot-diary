@@ -1,5 +1,11 @@
 <!--首页 - 鹦鹉成长日记-->
 <view class="container">
+  <!-- 顶部欢迎区 -->
+  <view class="welcome-section">
+    <view class="welcome-title">你好，鹦鹉主人 👋</view>
+    <view class="welcome-desc">记录鹦鹉成长的每一刻美好</view>
+  </view>
+
   <!-- 鹦鹉卡片 -->
   <view class="parrot-card card" wx:if="{{currentParrot}}" bindtap="goToParrot">
     <view class="parrot-header flex-between">
@@ -35,64 +41,47 @@
     </view>
   </view>
 
-  <!-- 快捷功能 -->
-  <view class="section-title">快捷功能</view>
-  <view class="quick-actions grid">
-    <view class="action-item card text-center" bindtap="takePhoto">
-      <text class="action-icon">📷</text>
-      <text class="action-label">拍照</text>
+  <!-- 快捷操作 -->
+  <view class="section-title">快速记录</view>
+  <view class="quick-actions flex">
+    <view class="action-btn card flex-center" bindtap="takePhoto">
+      <text class="action-icon-large">📷</text>
+      <text class="action-text">拍照</text>
     </view>
-    <view class="action-item card text-center" bindtap="goToTraining">
-      <text class="action-icon">🎵</text>
-      <text class="action-label">训练</text>
+    <view class="action-btn card flex-center" bindtap="writeDiary">
+      <text class="action-icon-large">📝</text>
+      <text class="action-text">日记</text>
     </view>
-    <view class="action-item card text-center" bindtap="writeDiary">
-      <text class="action-icon">📝</text>
-      <text class="action-label">日记</text>
-    </view>
-    <view class="action-item card text-center" bindtap="viewStats">
-      <text class="action-icon">📊</text>
-      <text class="action-label">统计</text>
+    <view class="action-btn card flex-center" bindtap="viewStats">
+      <text class="action-icon-large">📊</text>
+      <text class="action-text">统计</text>
     </view>
   </view>
 
-  <!-- 今日提醒 -->
-  <view class="section-title">今日提醒</view>
-  <view class="reminders card">
-    <view class="reminder-item flex-between">
-      <view class="reminder-info">
-        <text class="reminder-time">⏰ 08:00</text>
-        <text class="reminder-text">喂食</text>
+  <!-- 导航提示 -->
+  <view class="nav-hint card">
+    <view class="hint-title">💡 更多功能</view>
+    <view class="hint-grid">
+      <view class="hint-item">
+        <text class="hint-icon">📷</text>
+        <text class="hint-text">相册</text>
       </view>
-      <switch checked color="#4CAF50" />
-    </view>
-    <view class="reminder-item flex-between">
-      <view class="reminder-info">
-        <text class="reminder-time">⏰ 12:00</text>
-        <text class="reminder-text">换水</text>
+      <view class="hint-item">
+        <text class="hint-icon">📖</text>
+        <text class="hint-text">饲养指南</text>
       </view>
-      <switch color="#4CAF50" />
-    </view>
-    <view class="reminder-item flex-between">
-      <view class="reminder-info">
-        <text class="reminder-time">⏰ 18:00</text>
-        <text class="reminder-text">训练</text>
+      <view class="hint-item">
+        <text class="hint-icon">🎵</text>
+        <text class="hint-text">音频训练</text>
       </view>
-      <switch color="#4CAF50" />
     </view>
-    <view class="reminder-item flex-between">
-      <view class="reminder-info">
-        <text class="reminder-time">⏰ 21:00</text>
-        <text class="reminder-text">回笼休息</text>
-      </view>
-      <switch color="#4CAF50" />
-    </view>
+    <view class="hint-desc">点击下方导航栏访问</view>
   </view>
 
   <!-- 最近照片 -->
   <view class="section-title flex-between">
     <text>最近照片</text>
-    <text class="more-link" bindtap="goToAlbum">更多 ></text>
+    <text class="more-link" bindtap="goToAlbum">查看更多 ></text>
   </view>
   <view class="recent-photos grid-3" wx:if="{{recentPhotos.length > 0}}">
     <view class="photo-item" wx:for="{{recentPhotos}}" wx:key="id" bindtap="previewPhoto" data-url="{{item.path}}">
@@ -102,5 +91,9 @@
   <view class="empty-state" wx:else>
     <text class="empty-icon">📷</text>
     <text class="empty-desc">还没有照片，快去拍一张吧</text>
+    <button class="btn btn-primary mt-4" bindtap="takePhoto">拍摄第一张照片</button>
   </view>
+
+  <!-- 底部留白（避免被 tabBar 遮挡） -->
+  <view style="height: 100px;"></view>
 </view>
