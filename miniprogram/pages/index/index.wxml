@@ -1,0 +1,106 @@
+<!--首页 - 鹦鹉成长日记-->
+<view class="container">
+  <!-- 鹦鹉卡片 -->
+  <view class="parrot-card card" wx:if="{{currentParrot}}" bindtap="goToParrot">
+    <view class="parrot-header flex-between">
+      <view class="parrot-name">{{currentParrot.name}}</view>
+      <view class="tag">{{currentParrot.breed}}</view>
+    </view>
+    <view class="parrot-avatar flex-center">
+      <text class="avatar-emoji">🦜</text>
+    </view>
+    <view class="parrot-info flex-between">
+      <view class="info-item text-center">
+        <text class="info-number">{{stats.days}}</text>
+        <text class="info-label">饲养天数</text>
+      </view>
+      <view class="info-item text-center">
+        <text class="info-number">{{stats.photos}}</text>
+        <text class="info-label">照片</text>
+      </view>
+      <view class="info-item text-center">
+        <text class="info-number">{{stats.trainings}}</text>
+        <text class="info-label">训练</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 添加鹦鹉 -->
+  <view class="add-parrot card" wx:else bindtap="addParrot">
+    <view class="empty-state">
+      <text class="empty-icon">🦜</text>
+      <text class="empty-title">还没有鹦鹉档案</text>
+      <text class="empty-desc">创建第一个鹦鹉档案，开始记录成长</text>
+      <button class="btn btn-primary">添加鹦鹉</button>
+    </view>
+  </view>
+
+  <!-- 快捷功能 -->
+  <view class="section-title">快捷功能</view>
+  <view class="quick-actions grid">
+    <view class="action-item card text-center" bindtap="takePhoto">
+      <text class="action-icon">📷</text>
+      <text class="action-label">拍照</text>
+    </view>
+    <view class="action-item card text-center" bindtap="goToTraining">
+      <text class="action-icon">🎵</text>
+      <text class="action-label">训练</text>
+    </view>
+    <view class="action-item card text-center" bindtap="writeDiary">
+      <text class="action-icon">📝</text>
+      <text class="action-label">日记</text>
+    </view>
+    <view class="action-item card text-center" bindtap="viewStats">
+      <text class="action-icon">📊</text>
+      <text class="action-label">统计</text>
+    </view>
+  </view>
+
+  <!-- 今日提醒 -->
+  <view class="section-title">今日提醒</view>
+  <view class="reminders card">
+    <view class="reminder-item flex-between">
+      <view class="reminder-info">
+        <text class="reminder-time">⏰ 08:00</text>
+        <text class="reminder-text">喂食</text>
+      </view>
+      <switch checked color="#4CAF50" />
+    </view>
+    <view class="reminder-item flex-between">
+      <view class="reminder-info">
+        <text class="reminder-time">⏰ 12:00</text>
+        <text class="reminder-text">换水</text>
+      </view>
+      <switch color="#4CAF50" />
+    </view>
+    <view class="reminder-item flex-between">
+      <view class="reminder-info">
+        <text class="reminder-time">⏰ 18:00</text>
+        <text class="reminder-text">训练</text>
+      </view>
+      <switch color="#4CAF50" />
+    </view>
+    <view class="reminder-item flex-between">
+      <view class="reminder-info">
+        <text class="reminder-time">⏰ 21:00</text>
+        <text class="reminder-text">回笼休息</text>
+      </view>
+      <switch color="#4CAF50" />
+    </view>
+  </view>
+
+  <!-- 最近照片 -->
+  <view class="section-title flex-between">
+    <text>最近照片</text>
+    <text class="more-link" bindtap="goToAlbum">更多 ></text>
+  </view>
+  <view class="recent-photos grid-3" wx:if="{{recentPhotos.length > 0}}">
+    <view class="photo-item" wx:for="{{recentPhotos}}" wx:key="id" bindtap="previewPhoto" data-url="{{item.path}}">
+      <image class="photo-thumb" src="{{item.path}}" mode="aspectFill" />
+    </view>
+  </view>
+  <view class="empty-state" wx:else>
+    <text class="empty-icon">📷</text>
+    <text class="empty-desc">还没有照片，快去拍一张吧</text>
+  </view>
+</view>

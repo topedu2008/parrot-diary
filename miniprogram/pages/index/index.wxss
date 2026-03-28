@@ -1,0 +1,112 @@
+/* 首页样式 */
+.parrot-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.parrot-header {
+  margin-bottom: 16px;
+}
+
+.parrot-name {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.parrot-avatar {
+  height: 100px;
+  margin-bottom: 16px;
+}
+
+.avatar-emoji {
+  font-size: 80px;
+}
+
+.parrot-info {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.info-item {
+  flex: 1;
+}
+
+.info-number {
+  display: block;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.info-label {
+  display: block;
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.add-parrot {
+  min-height: 300px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 24px 0 12px;
+  color: var(--text-primary);
+}
+
+.action-item {
+  padding: 20px 16px;
+}
+
+.action-icon {
+  display: block;
+  font-size: 40px;
+  margin-bottom: 8px;
+}
+
+.action-label {
+  display: block;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.reminder-item {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.reminder-item:last-child {
+  border-bottom: none;
+}
+
+.reminder-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.reminder-time {
+  font-weight: 500;
+}
+
+.reminder-text {
+  color: var(--text-secondary);
+}
+
+.more-link {
+  font-size: 14px;
+  color: var(--primary-color);
+}
+
+.photo-item {
+  aspect-ratio: 1;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.photo-thumb {
+  width: 100%;
+  height: 100%;
+}
