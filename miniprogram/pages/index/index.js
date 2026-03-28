@@ -9,9 +9,13 @@ Page({
     stats: {
       days: 0,
       photos: 0,
-      trainings: 0
+      diaries: 0,
+      trainings: 0,
+      weight: null
     },
-    recentPhotos: []
+    recentPhotos: [],
+    latestDiary: null,
+    skills: []
   },
 
   onLoad() {
@@ -39,24 +43,40 @@ Page({
       const parrot = parrots[0];
       this.setData({ currentParrot: parrot });
       
-      // 计算统计
+      // 加载各项数据
       const photos = storage.getParrotMedia(parrot.id);
+      const diaries = storage.getParrotDiaries(parrot.id);
       const trainings = storage.getParrotTrainings(parrot.id);
       const days = this.calculateDays(parrot.createdAt);
+      
+      // 计算最新日记
+      const latestDiary = diaries.length > 0 ? this.formatDiary(diaries[0]) : null;
+      
+      // 获取最近掌握的技能
+      const skills = this.getRecentSkills(trainings);
       
       this.setData({
         stats: {
           days,
           photos: photos.length,
-          trainings: trainings.length
+          diaries: diaries.length,
+          trainings: trainings.length,
+          weight: parrot.weight || null
         },
-        recentPhotos: photos.slice(0, 6)
+        recentPhotos: photos.slice(0, 4).map(p => ({
+          ...p,
+          date: this.formatDate(p.createdAt)
+        })),
+        latestDiary,
+        skills
       });
     } else {
       this.setData({
         currentParrot: null,
-        stats: { days: 0, photos: 0, trainings: 0 },
-        recentPhotos: []
+        stats: { days: 0, photos: 0, diaries: 0, trainings: 0, weight: null },
+        recentPhotos: [],
+        latestDiary: null,
+        skills: []
       });
     }
   },
@@ -70,6 +90,98 @@ Page({
     const now = new Date();
     const diff = now - start;
     return Math.floor(diff / (1000 * 60 * 60 * 24));
+  },
+
+  /**
+   * 格式化日记
+   */
+  formatDiary(diary) {
+    const date = new Date(diary.createdAt);
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    
+    return {
+      ...diary,
+      date: `${month}月${day}日`,
+      mood: this.getMoodEmoji(diary.mood)
+    };
+  },
+
+  /**
+   * 获取心情图标
+   */
+  getMoodEmoji(mood) {
+    const moods = {
+      'happy': '😊',
+      'sad': '😢',
+      'sleepy': '😴',
+      'excited': '🎉',
+      'angry': '😤',
+      'love': '😍',
+      'calm': '😌'
+    };
+    return moods[mood] || '😊';
+  },
+
+  /**
+   * 获取最近掌握的技能
+   */
+  getRecentSkills(trainings) {
+    // 获取已掌握的技能（评分>=4 的）
+    const mastered = trainings
+      .filter(t => t.rating >= 4)
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      .slice(0, 4);
+    
+    return mastered.map(t => ({
+      id: t.id,
+      name: t.audioName || '训练技能',
+      icon: this.getSkillIcon(t.audioId),
+      date: this.formatDate(t.createdAt)
+    }));
+  },
+
+  /**
+   * 获取技能图标
+   */
+  getSkillIcon(audioId) {
+    if (!audioId) return '🎯';
+    
+    const icons = {
+      'SIG': '🔔',
+      'SNG': '🎤',
+      'SKL': '🧠',
+      'BEH': '🎯',
+      'NAT': '💬',
+      'ENV': '🌿'
+    };
+    
+    const prefix = audioId.substring(0, 3);
+    return icons[prefix] || '🎯';
+  },
+
+  /**
+   * 格式化日期
+   */
+  formatDate(dateStr) {
+    const date = new Date(dateStr);
+    const now = new Date();
+    const diff = now - date;
+    
+    // 今天
+    if (diff < 24 * 60 * 60 * 1000) {
+      return '今天';
+    }
+    
+    // 昨天
+    if (diff < 48 * 60 * 60 * 1000) {
+      return '昨天';
+    }
+    
+    // 其他日期
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    return `${month}/${day}`;
   },
 
   /**
@@ -91,100 +203,30 @@ Page({
   },
 
   /**
-   * 拍照
-   */
-  takePhoto() {
-    if (!this.data.currentParrot) {
-      wx.showModal({
-        title: '提示',
-        content: '请先添加鹦鹉档案',
-        confirmText: '去添加',
-        success: (res) => {
-          if (res.confirm) {
-            wx.navigateTo({
-              url: '/pages/profile/add-parrot/add-parrot'
-            });
-          }
-        }
-      });
-      return;
-    }
-
-    wx.chooseMedia({
-      count: 9,
-      mediaType: ['image'],
-      sourceType: ['album', 'camera'],
-      success: (res) => {
-        const tempFilePath = res.tempFiles[0].tempFilePath;
-        
-        // 保存文件
-        const savedPath = storage.saveFile(tempFilePath, 'albums/' + this.data.currentParrot.id);
-        
-        if (savedPath) {
-          // 添加到相册
-          storage.addMedia(this.data.currentParrot.id, {
-            type: 'photo',
-            path: savedPath,
-            caption: '新照片',
-            tags: []
-          });
-
-          wx.showToast({
-            title: '保存成功',
-            icon: 'success'
-          });
-
-          this.loadData();
-        } else {
-          wx.showToast({
-            title: '保存失败',
-            icon: 'none'
-          });
-        }
-      }
-    });
-  },
-
-  /**
-   * 写日记
-   */
-  writeDiary() {
-    if (!this.data.currentParrot) {
-      wx.showModal({
-        title: '提示',
-        content: '请先添加鹦鹉档案',
-        confirmText: '去添加',
-        success: (res) => {
-          if (res.confirm) {
-            wx.navigateTo({
-              url: '/pages/profile/add-parrot/add-parrot'
-            });
-          }
-        }
-      });
-      return;
-    }
-
-    wx.navigateTo({
-      url: '/pages/diary/write/write?parrotId=' + this.data.currentParrot.id
-    });
-  },
-
-  /**
-   * 查看统计
-   */
-  viewStats() {
-    wx.navigateTo({
-      url: '/pages/profile/stats/stats'
-    });
-  },
-
-  /**
    * 跳转到相册
    */
   goToAlbum() {
     wx.switchTab({
       url: '/pages/album/album'
+    });
+  },
+
+  /**
+   * 跳转到日记
+   */
+  goToDiary() {
+    wx.switchTab({
+      url: '/pages/diary/diary'
+    });
+  },
+
+  /**
+   * 查看日记详情
+   */
+  viewDiaryDetail(e) {
+    const id = e.currentTarget.dataset.id;
+    wx.navigateTo({
+      url: '/pages/diary/detail/detail?id=' + id
     });
   },
 

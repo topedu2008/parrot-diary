@@ -41,57 +41,79 @@
     </view>
   </view>
 
-  <!-- 快捷操作 -->
-  <view class="section-title">快速记录</view>
-  <view class="quick-actions flex">
-    <view class="action-btn card flex-center" bindtap="takePhoto">
-      <text class="action-icon-large">📷</text>
-      <text class="action-text">拍照</text>
+  <!-- 成长统计 -->
+  <view class="section-title">成长统计</view>
+  <view class="stats-grid card" wx:if="{{currentParrot}}">
+    <view class="stat-item">
+      <view class="stat-icon">📷</view>
+      <view class="stat-value">{{stats.photos}}</view>
+      <view class="stat-label">照片</view>
     </view>
-    <view class="action-btn card flex-center" bindtap="writeDiary">
-      <text class="action-icon-large">📝</text>
-      <text class="action-text">日记</text>
+    <view class="stat-divider-vertical"></view>
+    <view class="stat-item">
+      <view class="stat-icon">📝</view>
+      <view class="stat-value">{{stats.diaries}}</view>
+      <view class="stat-label">日记</view>
     </view>
-    <view class="action-btn card flex-center" bindtap="viewStats">
-      <text class="action-icon-large">📊</text>
-      <text class="action-text">统计</text>
+    <view class="stat-divider-vertical"></view>
+    <view class="stat-item">
+      <view class="stat-icon">🎵</view>
+      <view class="stat-value">{{stats.trainings}}</view>
+      <view class="stat-label">技能</view>
+    </view>
+    <view class="stat-divider-vertical"></view>
+    <view class="stat-item">
+      <view class="stat-icon">⚖️</view>
+      <view class="stat-value">{{stats.weight || '--'}}</view>
+      <view class="stat-label">体重 (g)</view>
     </view>
   </view>
 
-  <!-- 导航提示 -->
-  <view class="nav-hint card">
-    <view class="hint-title">💡 更多功能</view>
-    <view class="hint-grid">
-      <view class="hint-item">
-        <text class="hint-icon">📷</text>
-        <text class="hint-text">相册</text>
-      </view>
-      <view class="hint-item">
-        <text class="hint-icon">📖</text>
-        <text class="hint-text">饲养指南</text>
-      </view>
-      <view class="hint-item">
-        <text class="hint-icon">🎵</text>
-        <text class="hint-text">音频训练</text>
-      </view>
-    </view>
-    <view class="hint-desc">点击下方导航栏访问</view>
-  </view>
-
-  <!-- 最近照片 -->
+  <!-- 最新照片 -->
   <view class="section-title flex-between">
-    <text>最近照片</text>
-    <text class="more-link" bindtap="goToAlbum">查看更多 ></text>
+    <text>📸 最新照片</text>
+    <text class="more-link" bindtap="goToAlbum">查看全部 ></text>
   </view>
-  <view class="recent-photos grid-3" wx:if="{{recentPhotos.length > 0}}">
-    <view class="photo-item" wx:for="{{recentPhotos}}" wx:key="id" bindtap="previewPhoto" data-url="{{item.path}}">
-      <image class="photo-thumb" src="{{item.path}}" mode="aspectFill" />
+  <view class="recent-photos card" wx:if="{{recentPhotos.length > 0}}">
+    <view class="photo-carousel">
+      <view class="photo-item" wx:for="{{recentPhotos}}" wx:key="id" wx:if="{{index < 4}}" bindtap="previewPhoto" data-url="{{item.path}}">
+        <image class="photo-thumb" src="{{item.path}}" mode="aspectFill" />
+        <view class="photo-date">{{item.date}}</view>
+      </view>
     </view>
   </view>
-  <view class="empty-state" wx:else>
+  <view class="empty-state card" wx:else>
     <text class="empty-icon">📷</text>
-    <text class="empty-desc">还没有照片，快去拍一张吧</text>
-    <button class="btn btn-primary mt-4" bindtap="takePhoto">拍摄第一张照片</button>
+    <text class="empty-desc">还没有照片，记录第一个瞬间吧</text>
+  </view>
+
+  <!-- 最新日记 -->
+  <view class="section-title flex-between" wx:if="{{latestDiary}}">
+    <text>📝 最新日记</text>
+    <text class="more-link" bindtap="goToDiary">查看全部 ></text>
+  </view>
+  <view class="latest-diary card" wx:if="{{latestDiary}}" bindtap="viewDiaryDetail" data-id="{{latestDiary.id}}">
+    <view class="diary-header">
+      <view class="diary-mood">{{latestDiary.mood}}</view>
+      <view class="diary-date">{{latestDiary.date}}</view>
+    </view>
+    <view class="diary-content">{{latestDiary.content}}</view>
+    <view class="diary-images" wx:if="{{latestDiary.images && latestDiary.images.length > 0}}">
+      <image class="diary-image" src="{{latestDiary.images[0]}}" mode="aspectFill" />
+      <view class="image-count" wx:if="{{latestDiary.images.length > 1}}">+{{latestDiary.images.length - 1}}</view>
+    </view>
+  </view>
+
+  <!-- 技能获得 -->
+  <view class="section-title" wx:if="{{skills.length > 0}}">
+    <text>🎯 技能获得</text>
+  </view>
+  <view class="skills-grid card" wx:if="{{skills.length > 0}}">
+    <view class="skill-item" wx:for="{{skills}}" wx:key="id">
+      <view class="skill-icon">{{item.icon}}</view>
+      <view class="skill-name">{{item.name}}</view>
+      <view class="skill-date">{{item.date}}</view>
+    </view>
   </view>
 
   <!-- 底部留白（避免被 tabBar 遮挡） -->
