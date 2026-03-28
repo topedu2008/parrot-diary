@@ -1,0 +1,119 @@
+<!--我的页面 - 鹦鹉成长日记-->
+<view class="container">
+  <!-- 用户信息卡片 -->
+  <view class="user-card card">
+    <view class="user-header">
+      <view class="avatar" bindtap="editProfile">
+        <text class="avatar-emoji">👤</text>
+      </view>
+      <view class="user-info" bindtap="editProfile">
+        <view class="user-name">{{userInfo.nickName || '鹦鹉主人'}}</view>
+        <view class="user-id">ID: {{userInfo.id || '123456'}}</view>
+      </view>
+      <view class="settings-icon" bindtap="goSettings">⚙️</view>
+    </view>
+  </view>
+
+  <!-- 数据统计 -->
+  <view class="stats-card card">
+    <view class="stat-item" bindtap="viewStats">
+      <text class="stat-number">{{stats.parrotCount}}</text>
+      <text class="stat-label">鹦鹉</text>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item" bindtap="goToAlbum">
+      <text class="stat-number">{{stats.mediaCount}}</text>
+      <text class="stat-label">照片/视频</text>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item" bindtap="goToTraining">
+      <text class="stat-number">{{stats.trainingCount}}</text>
+      <text class="stat-label">训练</text>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item" bindtap="goToDiary">
+      <text class="stat-number">{{stats.diaryCount}}</text>
+      <text class="stat-label">日记</text>
+    </view>
+  </view>
+
+  <!-- 我的鹦鹉 -->
+  <view class="section-title">我的鹦鹉</view>
+  <view class="parrot-list">
+    <view class="parrot-item card" wx:for="{{parrots}}" wx:key="id" bindtap="editParrot" data-id="{{item.id}}">
+      <view class="parrot-avatar">🦜</view>
+      <view class="parrot-info">
+        <view class="parrot-name">{{item.name}}</view>
+        <view class="parrot-detail">{{item.breed}} · {{item.age}}岁</view>
+      </view>
+      <view class="parrot-action">›</view>
+    </view>
+    <view class="add-parrot card" bindtap="addParrot">
+      <view class="add-icon">➕</view>
+      <view class="add-text">添加鹦鹉</view>
+    </view>
+  </view>
+
+  <!-- 功能菜单 -->
+  <view class="menu-section">
+    <view class="menu-group card">
+      <view class="menu-item" bindtap="goToAlbum">
+        <text class="menu-icon">📷</text>
+        <text class="menu-label">相册</text>
+        <text class="menu-arrow">›</text>
+      </view>
+      <view class="menu-item" bindtap="goToTraining">
+        <text class="menu-icon">🎵</text>
+        <text class="menu-label">训练记录</text>
+        <text class="menu-arrow">›</text>
+      </view>
+      <view class="menu-item" bindtap="goToDiary">
+        <text class="menu-icon">📝</text>
+        <text class="menu-label">日记</text>
+        <text class="menu-arrow">›</text>
+      </view>
+    </view>
+
+    <view class="menu-group card">
+      <view class="menu-item" bindtap="viewStats">
+        <text class="menu-icon">📊</text>
+        <text class="menu-label">数据统计</text>
+        <text class="menu-arrow">›</text>
+      </view>
+      <view class="menu-item" bindtap="exportData">
+        <text class="menu-icon">💾</text>
+        <text class="menu-label">数据备份</text>
+        <text class="menu-arrow">›</text>
+      </view>
+      <view class="menu-item" bindtap="importData">
+        <text class="menu-icon">📥</text>
+        <text class="menu-label">数据恢复</text>
+        <text class="menu-arrow">›</text>
+      </view>
+    </view>
+
+    <view class="menu-group card">
+      <view class="menu-item" bindtap="giveFeedback">
+        <text class="menu-icon">💬</text>
+        <text class="menu-label">意见反馈</text>
+        <text class="menu-arrow">›</text>
+      </view>
+      <view class="menu-item" bindtap="checkUpdate">
+        <text class="menu-icon">🔄</text>
+        <text class="menu-label">检查更新</text>
+        <text class="menu-arrow">›</text>
+      </view>
+      <view class="menu-item" bindtap="aboutApp">
+        <text class="menu-icon">ℹ️</text>
+        <text class="menu-label">关于我们</text>
+        <text class="menu-arrow">›</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部信息 -->
+  <view class="footer-info">
+    <view class="version">Version 1.0.0</view>
+    <view class="copyright">© 2026 鹦鹉成长日记</view>
+  </view>
+</view>

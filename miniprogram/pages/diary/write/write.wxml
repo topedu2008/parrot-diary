@@ -1,0 +1,124 @@
+<!--写日记页面 - 鹦鹉成长日记-->
+<view class="container">
+  <!-- 选择鹦鹉 -->
+  <view class="parrot-selector card" wx:if="{{parrots.length > 1}}">
+    <view class="selector-label">选择鹦鹉</view>
+    <picker bindchange="onParrotChange" value="{{parrotIndex}}" range="{{parrots}}" range-key="name">
+      <view class="selector-value">
+        <text>{{parrots[parrotIndex].name}}</text>
+        <text class="arrow">›</text>
+      </view>
+    </picker>
+  </view>
+
+  <!-- 心情选择 -->
+  <view class="mood-selector card">
+    <view class="selector-label">今天的心情</view>
+    <view class="mood-options">
+      <view class="mood-option {{mood === 'happy' ? 'selected' : ''}}" bindtap="selectMood" data-mood="happy">
+        <text class="mood-emoji">😊</text>
+        <text class="mood-label">开心</text>
+      </view>
+      <view class="mood-option {{mood === 'excited' ? 'selected' : ''}}" bindtap="selectMood" data-mood="excited">
+        <text class="mood-emoji">🎉</text>
+        <text class="mood-label">兴奋</text>
+      </view>
+      <view class="mood-option {{mood === 'calm' ? 'selected' : ''}}" bindtap="selectMood" data-mood="calm">
+        <text class="mood-emoji">😌</text>
+        <text class="mood-label">平静</text>
+      </view>
+      <view class="mood-option {{mood === 'sad' ? 'selected' : ''}}" bindtap="selectMood" data-mood="sad">
+        <text class="mood-emoji">😢</text>
+        <text class="mood-label">难过</text>
+      </view>
+      <view class="mood-option {{mood === 'angry' ? 'selected' : ''}}" bindtap="selectMood" data-mood="angry">
+        <text class="mood-emoji">😤</text>
+        <text class="mood-label">生气</text>
+      </view>
+      <view class="mood-option {{mood === 'sleepy' ? 'selected' : ''}}" bindtap="selectMood" data-mood="sleepy">
+        <text class="mood-emoji">😴</text>
+        <text class="mood-label">困倦</text>
+      </view>
+      <view class="mood-option {{mood === 'love' ? 'selected' : ''}}" bindtap="selectMood" data-mood="love">
+        <text class="mood-emoji">😍</text>
+        <text class="mood-label">喜爱</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 日记内容 -->
+  <view class="content-editor card">
+    <view class="editor-label">记录今天</view>
+    <textarea 
+      class="editor-input" 
+      placeholder="今天和鹦鹉发生了什么有趣的事？" 
+      value="{{content}}"
+      bindinput="onContentInput"
+      maxlength="1000"
+      auto-height
+    />
+    <view class="char-count">{{contentLength}}/1000</view>
+  </view>
+
+  <!-- 添加照片 -->
+  <view class="photo-uploader card">
+    <view class="uploader-label">添加照片</view>
+    <view class="photo-grid">
+      <view class="photo-item" wx:for="{{photos}}" wx:key="*this">
+        <image class="photo-thumb" src="{{item}}" mode="aspectFill" />
+        <view class="photo-delete" bindtap="deletePhoto" data-index="{{index}}">✕</view>
+      </view>
+      <view class="photo-add" bindtap="addPhoto" wx:if="{{photos.length < 9}}">
+        <text class="add-icon">📷</text>
+        <text class="add-text">添加照片</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 添加标签 -->
+  <view class="tag-editor card">
+    <view class="editor-label">添加标签</view>
+    <view class="tag-input-wrapper">
+      <input 
+        class="tag-input" 
+        placeholder="输入标签后按回车" 
+        value="{{tagInput}}"
+        bindinput="onTagInput"
+        bindconfirm="addTag"
+      />
+    </view>
+    <view class="tag-list">
+      <view class="tag-item" wx:for="{{tags}}" wx:key="*this">
+        <text>#{{item}}</text>
+        <text class="tag-delete" bindtap="removeTag" data-index="{{index}}">✕</text>
+      </view>
+    </view>
+    <view class="tag-suggestions">
+      <text class="tag-suggestion" wx:for="{{suggestedTags}}" wx:key="*this" bindtap="addSuggestedTag" data-tag="{{item}}">
+        #{{item}}
+      </text>
+    </view>
+  </view>
+
+  <!-- 隐私设置 -->
+  <view class="privacy-setting card">
+    <view class="setting-label">谁可以看</view>
+    <view class="setting-options">
+      <view class="setting-option {{isPublic ? '' : 'selected'}}" bindtap="setPrivacy" data-public="false">
+        <text class="option-icon">🔒</text>
+        <text class="option-text">仅自己可见</text>
+      </view>
+      <view class="setting-option {{isPublic ? 'selected' : ''}}" bindtap="setPrivacy" data-public="true">
+        <text class="option-icon">🌍</text>
+        <text class="option-text">公开分享</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 发布按钮 -->
+  <view class="publish-section">
+    <button class="btn btn-primary btn-block" bindtap="publish" disabled="{{!canPublish}}">
+      {{isEdit ? '保存' : '发布'}}日记
+    </button>
+  </view>
+</view>

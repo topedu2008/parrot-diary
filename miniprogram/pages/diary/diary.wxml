@@ -1,0 +1,86 @@
+<!--日记列表页面 - 鹦鹉成长日记-->
+<view class="container">
+  <!-- 顶部操作栏 -->
+  <view class="header flex-between">
+    <view class="header-title">📝 鹦鹉日记</view>
+    <view class="header-actions">
+      <view class="write-btn" bindtap="writeDiary">
+        <text class="btn-icon">✏️</text>
+        <text class="btn-text">写日记</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 心情筛选 -->
+  <view class="mood-filter">
+    <scroll-view scroll-x class="scroll-view">
+      <view class="mood-item {{currentMood === 'all' ? 'active' : ''}}" bindtap="setMood" data-mood="all">
+        <text class="mood-icon">全部</text>
+      </view>
+      <view class="mood-item {{currentMood === 'happy' ? 'active' : ''}}" bindtap="setMood" data-mood="happy">
+        <text class="mood-icon">😊</text>
+      </view>
+      <view class="mood-item {{currentMood === 'sad' ? 'active' : ''}}" bindtap="setMood" data-mood="sad">
+        <text class="mood-icon">😢</text>
+      </view>
+      <view class="mood-item {{currentMood === 'sleepy' ? 'active' : ''}}" bindtap="setMood" data-mood="sleepy">
+        <text class="mood-icon">😴</text>
+      </view>
+      <view class="mood-item {{currentMood === 'excited' ? 'active' : ''}}" bindtap="setMood" data-mood="excited">
+        <text class="mood-icon">🎉</text>
+      </view>
+      <view class="mood-item {{currentMood === 'angry' ? 'active' : ''}}" bindtap="setMood" data-mood="angry">
+        <text class="mood-icon">😤</text>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{diaries.length === 0}}">
+    <text class="empty-icon">📝</text>
+    <text class="empty-title">还没有日记</text>
+    <text class="empty-desc">记录与鹦鹉的第一个美好瞬间吧</text>
+    <button class="btn btn-primary" bindtap="writeDiary">写第一篇日记</button>
+  </view>
+
+  <!-- 日记列表 -->
+  <view class="diary-list" wx:if="{{diaries.length > 0}}">
+    <view class="diary-item card" wx:for="{{diaries}}" wx:key="id" bindtap="viewDetail" data-id="{{item.id}}">
+      <view class="diary-header">
+        <view class="diary-date">
+          <text class="date-day">{{item.day}}</text>
+          <text class="date-weekday">{{item.weekday}}</text>
+        </view>
+        <view class="diary-mood">{{item.mood}}</view>
+      </view>
+      
+      <view class="diary-content">
+        <text class="diary-text">{{item.content}}</text>
+        <view class="diary-images" wx:if="{{item.images && item.images.length > 0}}">
+          <image class="diary-image" src="{{item.images[0]}}" mode="aspectFill" wx:if="{{item.images.length === 1}}" />
+          <view class="image-grid" wx:if="{{item.images.length > 1}}">
+            <image class="diary-image-small" src="{{img}}" mode="aspectFill" wx:for="{{item.images}}" wx:key="*this" wx:if="{{index < 3}}" />
+            <view class="image-more" wx:if="{{item.images.length > 3}}">
+              <text class="more-text">+{{item.images.length - 3}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+      
+      <view class="diary-footer">
+        <view class="diary-tags" wx:if="{{item.tags && item.tags.length > 0}}">
+          <text class="tag" wx:for="{{item.tags}}" wx:key="*this" wx:if="{{index < 3}}">#{{item}}</text>
+        </view>
+        <view class="diary-stats">
+          <text class="stat-item">❤️ {{item.likes || 0}}</text>
+          <text class="stat-item">💬 {{item.comments || 0}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 加载更多 -->
+  <view class="load-more" wx:if="{{hasMore}}">
+    <text>加载更多...</text>
+  </view>
+</view>
