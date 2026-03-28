@@ -1,0 +1,294 @@
+/* 录音训练页面样式 */
+
+/* 音频信息卡片 */
+.audio-info {
+  text-align: center;
+  padding: 24px;
+}
+
+.audio-icon-large {
+  font-size: 64px;
+  margin-bottom: 12px;
+}
+
+.audio-name {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.audio-desc {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+/* 录音区域 */
+.recording-area {
+  padding: 24px 16px;
+}
+
+.鹦鹉-avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.avatar-emoji {
+  font-size: 80px;
+  margin-bottom: 8px;
+}
+
+.parrot-name {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* 波形显示 */
+.waveform-container {
+  margin-bottom: 32px;
+}
+
+.waveform {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  height: 100px;
+  margin-bottom: 16px;
+}
+
+.wave-bar {
+  width: 6px;
+  height: 10px;
+  background: var(--primary-color);
+  border-radius: 3px;
+}
+
+.waveform.recording .wave-bar {
+  animation: wave 0.5s ease-in-out infinite;
+}
+
+@keyframes wave {
+  0%, 100% {
+    height: 10px;
+  }
+  50% {
+    height: 60px;
+  }
+}
+
+.timer {
+  text-align: center;
+  font-size: 48px;
+  font-weight: bold;
+  color: var(--primary-color);
+  font-family: 'Courier New', monospace;
+}
+
+/* 控制按钮 */
+.control-buttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+.record-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 24px 48px;
+  background: var(--primary-color);
+  color: white;
+  border-radius: 50px;
+  box-shadow: 0 4px 16px rgba(76, 175, 80, 0.4);
+}
+
+.record-btn.recording {
+  background: #f44336;
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.record-icon {
+  font-size: 40px;
+}
+
+.record-text {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* 提示卡片 */
+.tips {
+  margin-bottom: 24px;
+}
+
+.tips-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--primary-color);
+  margin-bottom: 12px;
+}
+
+.tips-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+/* 区块标题 */
+.section-title {
+  font-size: 18px;
+  font-weight: bold;
+  padding: 16px;
+  color: var(--text-primary);
+}
+
+/* 录音列表 */
+.recordings-list {
+  padding: 0 16px 16px;
+}
+
+.recording-item {
+  margin-bottom: 12px;
+}
+
+.recording-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 12px;
+  color: var(--text-hint);
+}
+
+.recording-date {
+  font-weight: 500;
+}
+
+.recording-duration {
+  background: var(--bg-color);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.recording-audio {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.audio-play-btn {
+  width: 40px;
+  height: 40px;
+  background: var(--primary-color);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.audio-waveform {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 30px;
+}
+
+.mini-wave {
+  flex: 1;
+  height: 100%;
+  background: linear-gradient(to top, var(--primary-color), #8BC34A);
+  border-radius: 2px;
+}
+
+.recording-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rating {
+  display: flex;
+  gap: 4px;
+}
+
+.star {
+  font-size: 18px;
+  color: var(--text-hint);
+}
+
+.star.active {
+  color: #FFC107;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-delete {
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.empty-icon {
+  font-size: 64px;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.empty-desc {
+  display: block;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.empty-hint {
+  display: block;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+/* 保存区域 */
+.save-section {
+  padding: 16px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--card-color);
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+}

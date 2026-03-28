@@ -1,0 +1,86 @@
+<!--录音训练页面 - 鹦鹉成长日记-->
+<view class="container">
+  <!-- 音频信息 -->
+  <view class="audio-info card">
+    <view class="audio-icon-large">{{audioIcon}}</view>
+    <view class="audio-name">{{audioName}}</view>
+    <view class="audio-desc">{{audioSummary}}</view>
+  </view>
+
+  <!-- 录音区域 -->
+  <view class="recording-area">
+    <view class="鹦鹉-avatar">
+      <text class="avatar-emoji">🦜</text>
+      <text class="parrot-name">{{parrotName}}</text>
+    </view>
+
+    <!-- 波形显示 -->
+    <view class="waveform-container">
+      <view class="waveform {{isRecording ? 'recording' : ''}}">
+        <view class="wave-bar" wx:for="{{16}}" wx:key="*this" style="animation-delay: {{index * 0.1}}s"></view>
+      </view>
+      <view class="timer">{{formatTime}}</view>
+    </view>
+
+    <!-- 控制按钮 -->
+    <view class="control-buttons">
+      <view class="record-btn {{isRecording ? 'recording' : ''}}" bindtap="toggleRecording">
+        <text class="record-icon">{{isRecording ? '⏹️' : '🎤'}}</text>
+        <text class="record-text">{{isRecording ? '停止录音' : '开始录音'}}</text>
+      </view>
+    </view>
+
+    <!-- 提示信息 -->
+    <view class="tips card">
+      <view class="tips-title">💡 录音提示</view>
+      <view class="tips-content">
+        <text>1. 保持环境安静</text>
+        <text>2. 播放训练音频让鹦鹉听</text>
+        <text>3. 鹦鹉模仿时立即开始录音</text>
+        <text>4. 录音完成后给予奖励</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 录音记录列表 -->
+  <view class="section-title">📝 本次训练记录</view>
+  <view class="recordings-list">
+    <view class="recording-item card" wx:for="{{recordings}}" wx:key="id">
+      <view class="recording-header">
+        <text class="recording-date">{{item.createdAt}}</text>
+        <text class="recording-duration">{{item.duration}}秒</text>
+      </view>
+      <view class="recording-audio">
+        <view class="audio-play-btn" bindtap="playRecording" data-url="{{item.path}}">
+          <text>{{item.playing ? '⏸️' : '▶️'}}</text>
+        </view>
+        <view class="audio-waveform">
+          <view class="mini-wave" wx:for="{{8}}" wx:key="*this"></view>
+        </view>
+      </view>
+      <view class="recording-actions">
+        <view class="rating">
+          <text wx:for="{{5}}" wx:key="*this" class="star {{item.rating >= index + 1 ? 'active' : ''}}" bindtap="rateRecording" data-id="{{item.id}}" data-rating="{{index + 1}}">
+            {{item.rating >= index + 1 ? '⭐' : '☆'}}
+          </text>
+        </view>
+        <view class="action-buttons">
+          <button class="btn-delete" bindtap="deleteRecording" data-id="{{item.id}}">🗑️</button>
+        </view>
+      </view>
+    </view>
+
+    <view class="empty-state" wx:if="{{recordings.length === 0}}">
+      <text class="empty-icon">🎤</text>
+      <text class="empty-desc">还没有录音记录</text>
+      <text class="empty-hint">点击按钮开始第一次录音</text>
+    </view>
+  </view>
+
+  <!-- 保存按钮 -->
+  <view class="save-section" wx:if="{{recordings.length > 0}}">
+    <button class="btn btn-primary btn-block" bindtap="saveTraining">
+      💾 保存训练记录
+    </button>
+  </view>
+</view>

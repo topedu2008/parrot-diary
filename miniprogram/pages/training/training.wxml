@@ -1,0 +1,178 @@
+<!--音频训练页面 - 鹦鹉成长日记-->
+<view class="container">
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <view class="search-input" bindtap="searchAudio">
+      <text class="search-icon">🔍</text>
+      <text class="search-placeholder">搜索训练音频...</text>
+    </view>
+  </view>
+
+  <!-- 分类导航 -->
+  <view class="category-scroll">
+    <scroll-view scroll-x class="scroll-view">
+      <view class="category-item {{currentCategory === 'all' ? 'active' : ''}}" bindtap="setCategory" data-cat="all">
+        全部
+      </view>
+      <view class="category-item {{currentCategory === 'signal' ? 'active' : ''}}" bindtap="setCategory" data-cat="signal">
+        🔔 信号音
+      </view>
+      <view class="category-item {{currentCategory === 'nature' ? 'active' : ''}}" bindtap="setCategory" data-cat="nature">
+        💬 本能
+      </view>
+      <view class="category-item {{currentCategory === 'singing' ? 'active' : ''}}" bindtap="setCategory" data-cat="singing">
+        🎤 唱歌
+      </view>
+      <view class="category-item {{currentCategory === 'skill' ? 'active' : ''}}" bindtap="setCategory" data-cat="skill">
+        🧠 技巧
+      </view>
+      <view class="category-item {{currentCategory === 'behavior' ? 'active' : ''}}" bindtap="setCategory" data-cat="behavior">
+        🎯 行为
+      </view>
+      <view class="category-item {{currentCategory === 'environment' ? 'active' : ''}}" bindtap="setCategory" data-cat="environment">
+        🌿 环境
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 训练进度概览 -->
+  <view class="progress-card card">
+    <view class="progress-title">📊 我的训练进度</view>
+    <view class="progress-stats">
+      <view class="stat-item">
+        <text class="stat-number">{{stats.mastered}}</text>
+        <text class="stat-label">已掌握</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-number">{{stats.learning}}</text>
+        <text class="stat-label">学习中</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-number">{{stats.total}}</text>
+        <text class="stat-label">总训练</text>
+      </view>
+    </view>
+    <view class="progress-bar">
+      <view class="progress-fill" style="width: {{progressPercent}}%"></view>
+    </view>
+    <view class="progress-text">{{progressPercent}}% 完成度</view>
+  </view>
+
+  <!-- 推荐训练 -->
+  <view class="section-title">⭐ 推荐训练</view>
+  <view class="recommended-list">
+    <view class="audio-card card" wx:for="{{recommended}}" wx:key="id" bindtap="playAudio" data-audio="{{item}}">
+      <view class="audio-header">
+        <view class="audio-icon">{{getIcon(item.categoryId)}}</view>
+        <view class="audio-info">
+          <view class="audio-title">{{item.name}}</view>
+          <view class="audio-meta">
+            <text class="audio-level" wx:if="{{item.level === '核心'}}">🔥 核心</text>
+            <text class="audio-level" wx:elif="{{item.level === '入门'}}">⭐ 入门</text>
+            <text class="audio-duration">{{item.duration}}秒</text>
+          </view>
+        </view>
+        <view class="play-btn">▶</view>
+      </view>
+      <view class="audio-desc">{{item.summary}}</view>
+      <view class="audio-stats">
+        <text>🎓 {{item.learnCount}} 鹦鹉学习</text>
+        <text>⭐ {{item.rating}} 分</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 全部音频 -->
+  <view class="section-title">🎵 全部音频</view>
+  <view class="audio-list">
+    <view class="audio-item card" wx:for="{{audioList}}" wx:key="id" bindtap="playAudio" data-audio="{{item}}">
+      <view class="audio-header">
+        <view class="audio-icon">{{getIcon(item.categoryId)}}</view>
+        <view class="audio-info flex-1">
+          <view class="audio-title">{{item.name}}</view>
+          <view class="audio-meta">
+            <text class="tag tag-small">{{item.category}}</text>
+            <text class="audio-duration">{{item.duration}}秒</text>
+          </view>
+        </view>
+        <view class="play-btn-small">▶</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 加载更多 -->
+  <view class="load-more" wx:if="{{hasMore}}">
+    <text>加载更多...</text>
+  </view>
+
+  <!-- 底部播放控制栏 -->
+  <view class="player-bar" wx:if="{{currentAudio}}">
+    <view class="player-info" bindtap="openPlayer">
+      <view class="player-name">{{currentAudio.name}}</view>
+      <view class="player-status">{{isPlaying ? '播放中...' : '已暂停'}}</view>
+    </view>
+    <view class="player-controls">
+      <view class="control-btn" bindtap="togglePlay">
+        <text>{{isPlaying ? '⏸️' : '▶️'}}</text>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 播放详情页 -->
+<view class="player-modal {{showPlayer ? 'show' : ''}}" bindtap="closePlayer">
+  <view class="player-content" catchtap="true">
+    <view class="player-header">
+      <view class="close-btn" bindtap="closePlayer">✕</view>
+      <view class="player-title">{{currentAudio?.name}}</view>
+      <view class="more-btn">⋮</view>
+    </view>
+    
+    <view class="player-main">
+      <view class="audio-visualizer">
+        <text class="visualizer-icon">{{getIcon(currentAudio?.categoryId)}}</text>
+      </view>
+      
+      <view class="player-progress">
+        <text class="current-time">{{currentTime}}</text>
+        <slider class="progress-slider" value="{{progress}}" bindchange="seekAudio" activeColor="#4CAF50" />
+        <text class="total-time">{{currentAudio?.duration}}s</text>
+      </view>
+      
+      <view class="player-buttons">
+        <view class="play-btn-large" bindtap="togglePlay">
+          <text>{{isPlaying ? '⏸️' : '▶️'}}</text>
+        </view>
+      </view>
+      
+      <view class="training-method card">
+        <view class="method-title">📖 训练方法</view>
+        <view class="method-content">{{currentAudio?.trainingMethod}}</view>
+      </view>
+      
+      <view class="expected-result card">
+        <view class="result-title">🎯 预期效果</view>
+        <view class="result-content">{{currentAudio?.expectedResult}}</view>
+      </view>
+      
+      <view class="stats-info">
+        <view class="stat-item">
+          <text class="stat-value">{{currentAudio?.learnCount}}</text>
+          <text class="stat-desc">鹦鹉学习</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value">{{currentAudio?.averageLearnDays}}天</text>
+          <text class="stat-desc">平均掌握</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value">⭐{{currentAudio?.rating}}</text>
+          <text class="stat-desc">用户评分</text>
+        </view>
+      </view>
+      
+      <button class="btn btn-primary btn-block" bindtap="startTraining">
+        🎤 开始录音训练
+      </button>
+    </view>
+  </view>
+</view>
