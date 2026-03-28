@@ -102,10 +102,109 @@
     </div>
   </section>
 
+  <!-- 小程序展示 -->
+  <section class="miniprogram-showcase">
+    <h2 class="section-title">小程序版本</h2>
+    <p class="section-subtitle">完整功能已在微信小程序上线，扫码立即体验</p>
+    
+    <div class="miniprogram-container">
+      <div class="phone-mockup">
+        <div class="phone-screen">
+          <div class="screen-header">
+            <div class="status-bar">
+              <span>9:41</span>
+              <span>🔋 100%</span>
+            </div>
+            <div class="nav-bar">
+              <span>鹦鹉成长日记</span>
+            </div>
+          </div>
+          <div class="screen-content">
+            <div class="welcome-section">
+              <h3>👋 你好，鹦鹉主人</h3>
+              <p>记录鹦鹉成长的每一刻美好</p>
+            </div>
+            <div class="parrot-card">
+              <div class="parrot-header">
+                <span class="parrot-name">小灰</span>
+                <span class="tag">玄凤鹦鹉</span>
+              </div>
+              <div class="parrot-avatar">🦜</div>
+              <div class="parrot-stats">
+                <div class="stat">
+                  <span class="number">456</span>
+                  <span class="label">饲养天数</span>
+                </div>
+                <div class="stat">
+                  <span class="number">128</span>
+                  <span class="label">照片</span>
+                </div>
+                <div class="stat">
+                  <span class="number">89</span>
+                  <span class="label">训练</span>
+                </div>
+              </div>
+            </div>
+            <div class="quick-actions">
+              <div class="action-btn">
+                <span class="icon">📷</span>
+                <span class="label">拍照</span>
+              </div>
+              <div class="action-btn">
+                <span class="icon">📝</span>
+                <span class="label">日记</span>
+              </div>
+              <div class="action-btn">
+                <span class="icon">📊</span>
+                <span class="label">统计</span>
+              </div>
+            </div>
+          </div>
+          <div class="tab-bar">
+            <div class="tab-item active">
+              <span class="tab-icon">🏠</span>
+              <span class="tab-label">首页</span>
+            </div>
+            <div class="tab-item">
+              <span class="tab-icon">📷</span>
+              <span class="tab-label">相册</span>
+            </div>
+            <div class="tab-item">
+              <span class="tab-icon">📖</span>
+              <span class="tab-label">指南</span>
+            </div>
+            <div class="tab-item">
+              <span class="tab-icon">🎵</span>
+              <span class="tab-label">训练</span>
+            </div>
+            <div class="tab-item">
+              <span class="tab-icon">🦜</span>
+              <span class="tab-label">我的</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="qr-section">
+        <div class="qr-placeholder">
+          <div class="qr-icon">📱</div>
+          <h3>微信小程序</h3>
+          <p>扫码立即体验</p>
+          <div class="qr-code">
+            <div class="qr-placeholder-image">
+              <div class="qr-pattern"></div>
+            </div>
+          </div>
+          <p class="qr-hint">微信小程序搜索「鹦鹉成长日记」</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- 在线体验 -->
   <section class="demo" id="demo">
-    <h2 class="section-title">在线体验</h2>
-    <p class="section-subtitle">无需下载，立即在浏览器中体验核心功能</p>
+    <h2 class="section-title">功能预览</h2>
+    <p class="section-subtitle">核心功能演示，完整体验请在小程序中查看</p>
     
     <div class="demo-container">
       <div class="demo-tabs">
@@ -121,8 +220,13 @@
           <div class="demo-placeholder">
             <div class="placeholder-icon">📷</div>
             <h3>鹦鹉相册</h3>
-            <p>记录每一个成长瞬间</p>
-            <button class="btn btn-primary" onclick="alert('完整功能请在小程序中使用')">体验上传功能</button>
+            <p>照片/视频上传 · 时间轴展示 · 分类筛选</p>
+            <div class="feature-tags">
+              <span class="feature-tag">✅ 拍照上传</span>
+              <span class="feature-tag">✅ 视频录制</span>
+              <span class="feature-tag">✅ 时间轴</span>
+              <span class="feature-tag">✅ 收藏管理</span>
+            </div>
           </div>
         </div>
         
@@ -131,20 +235,29 @@
           <div class="demo-placeholder">
             <div class="placeholder-icon">🎵</div>
             <h3>音频训练</h3>
-            <p>30+ 专业训练音频</p>
+            <p>30+ 专业训练音频 · 录音对比 · 成就系统</p>
             <div class="audio-preview">
               <div class="audio-item">
                 <span>🔔 喂食信号音</span>
-                <button class="btn-play">▶</button>
+                <span class="audio-duration">5 秒</span>
               </div>
               <div class="audio-item">
                 <span>🎤 小星星旋律</span>
-                <button class="btn-play">▶</button>
+                <span class="audio-duration">45 秒</span>
               </div>
               <div class="audio-item">
                 <span>🧠 你好指令</span>
-                <button class="btn-play">▶</button>
+                <span class="audio-duration">10 秒</span>
               </div>
+              <div class="audio-item">
+                <span>🎯 上来指令</span>
+                <span class="audio-duration">10 秒</span>
+              </div>
+            </div>
+            <div class="feature-tags">
+              <span class="feature-tag">✅ 7 大分类</span>
+              <span class="feature-tag">✅ 录音功能</span>
+              <span class="feature-tag">✅ 进度追踪</span>
             </div>
           </div>
         </div>
@@ -154,20 +267,33 @@
           <div class="demo-placeholder">
             <div class="placeholder-icon">📖</div>
             <h3>饲养指南</h3>
-            <p>18 篇专业文章</p>
+            <p>18 篇专业文章 · 分类导航 · 用户投稿</p>
             <div class="guide-preview">
               <div class="guide-item">
-                <span class="guide-tag">饮食</span>
+                <span class="guide-tag danger">⚠️ 危险</span>
                 <span>鹦鹉绝对不能吃的 10 种食物</span>
+                <span class="guide-stats">👁️ 15.2w</span>
               </div>
               <div class="guide-item">
-                <span class="guide-tag">环境</span>
+                <span class="guide-tag">🏠 环境</span>
                 <span>如何选择合适的鹦鹉笼</span>
+                <span class="guide-stats">👁️ 12.5w</span>
               </div>
               <div class="guide-item">
-                <span class="guide-tag">健康</span>
+                <span class="guide-tag">💊 健康</span>
                 <span>如何判断鹦鹉是否生病</span>
+                <span class="guide-stats">👁️ 9.8w</span>
               </div>
+              <div class="guide-item">
+                <span class="guide-tag">🎭 行为</span>
+                <span>读懂玄凤鹦鹉的肢体语言</span>
+                <span class="guide-stats">👁️ 7.6w</span>
+              </div>
+            </div>
+            <div class="feature-tags">
+              <span class="feature-tag">✅ 4 大分类</span>
+              <span class="feature-tag">✅ 官方教程</span>
+              <span class="feature-tag">✅ 用户投稿</span>
             </div>
           </div>
         </div>
@@ -177,8 +303,13 @@
           <div class="demo-placeholder">
             <div class="placeholder-icon">📝</div>
             <h3>鹦鹉日记</h3>
-            <p>记录与鹦鹉的日常</p>
-            <button class="btn btn-primary" onclick="alert('完整功能请在小程序中使用')">写日记</button>
+            <p>心情记录 · 照片配图 · 时间线回顾</p>
+            <div class="feature-tags">
+              <span class="feature-tag">✅ 7 种心情</span>
+              <span class="feature-tag">✅ 9 张照片</span>
+              <span class="feature-tag">✅ 标签系统</span>
+              <span class="feature-tag">✅ 隐私设置</span>
+            </div>
           </div>
         </div>
       </div>

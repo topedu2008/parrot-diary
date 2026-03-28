@@ -238,6 +238,237 @@ a {
   padding: 0.25rem 0;
 }
 
+/* 小程序展示 */
+.miniprogram-showcase {
+  padding: 6rem 2rem;
+  background: white;
+}
+
+.miniprogram-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+.phone-mockup {
+  display: flex;
+  justify-content: center;
+}
+
+.phone-screen {
+  width: 320px;
+  height: 640px;
+  background: #F5F5F5;
+  border-radius: 40px;
+  border: 12px solid #333;
+  overflow: hidden;
+  position: relative;
+  box-shadow: var(--shadow-lg);
+}
+
+.screen-header {
+  background: #4CAF50;
+  color: white;
+}
+
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 16px;
+  font-size: 12px;
+}
+
+.nav-bar {
+  text-align: center;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.screen-content {
+  padding: 16px;
+  height: calc(100% - 150px);
+  overflow-y: auto;
+}
+
+.welcome-section {
+  margin-bottom: 16px;
+}
+
+.welcome-section h3 {
+  font-size: 20px;
+  margin-bottom: 4px;
+}
+
+.welcome-section p {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.parrot-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.parrot-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.parrot-name {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.tag {
+  padding: 4px 12px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.parrot-avatar {
+  font-size: 60px;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.parrot-stats {
+  display: flex;
+  justify-content: space-around;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.stat .number {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.stat .label {
+  font-size: 11px;
+  opacity: 0.9;
+}
+
+.quick-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.action-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px;
+  background: white;
+  border-radius: 12px;
+  gap: 8px;
+}
+
+.action-btn .icon {
+  font-size: 32px;
+}
+
+.action-btn .label {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.tab-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: white;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 1px solid #E0E0E0;
+}
+
+.tab-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.tab-item .tab-icon {
+  font-size: 24px;
+}
+
+.tab-item .tab-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.tab-item.active .tab-icon,
+.tab-item.active .tab-label {
+  color: var(--primary-color);
+}
+
+.qr-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qr-placeholder {
+  text-align: center;
+  padding: 2rem;
+}
+
+.qr-icon {
+  font-size: 80px;
+  margin-bottom: 1rem;
+}
+
+.qr-code {
+  margin: 2rem 0;
+}
+
+.qr-placeholder-image {
+  width: 200px;
+  height: 200px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qr-pattern {
+  width: 160px;
+  height: 160px;
+  background: white;
+  border-radius: 8px;
+}
+
+.qr-hint {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-top: 1rem;
+}
+
 /* 在线体验 */
 .demo {
   padding: 6rem 2rem;
@@ -320,6 +551,12 @@ a {
   margin-bottom: 0.5rem;
 }
 
+.audio-duration,
+.guide-stats {
+  font-size: 12px;
+  color: var(--text-hint);
+}
+
 .btn-play {
   width: 40px;
   height: 40px;
@@ -338,6 +575,26 @@ a {
   border-radius: 20px;
   font-size: 0.75rem;
   margin-right: 1rem;
+}
+
+.guide-tag.danger {
+  background: #f44336;
+}
+
+.feature-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 1.5rem;
+  justify-content: center;
+}
+
+.feature-tag {
+  padding: 6px 12px;
+  background: #E8F5E9;
+  color: var(--primary-color);
+  border-radius: 16px;
+  font-size: 13px;
 }
 
 /* 关于 */
