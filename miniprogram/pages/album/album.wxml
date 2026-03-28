@@ -1,0 +1,83 @@
+<!--相册页面 - 鹦鹉成长日记-->
+<view class="container">
+  <!-- 顶部操作栏 -->
+  <view class="header flex-between">
+    <view class="header-title">📷 鹦鹉相册</view>
+    <view class="header-actions">
+      <view class="action-btn" bindtap="uploadPhoto">
+        <text class="action-icon">➕</text>
+        <text class="action-text">上传</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 筛选器 -->
+  <view class="filter-bar">
+    <scroll-view scroll-x class="filter-scroll">
+      <view class="filter-item {{filterType === 'all' ? 'active' : ''}}" bindtap="setFilter" data-type="all">
+        全部
+      </view>
+      <view class="filter-item {{filterType === 'photo' ? 'active' : ''}}" bindtap="setFilter" data-type="photo">
+        📷 照片
+      </view>
+      <view class="filter-item {{filterType === 'video' ? 'active' : ''}}" bindtap="setFilter" data-type="video">
+        🎬 视频
+      </view>
+      <view class="filter-item {{filterType === 'favorite' ? 'active' : ''}}" bindtap="setFilter" data-type="favorite">
+        ⭐ 收藏
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{mediaList.length === 0}}">
+    <text class="empty-icon">📷</text>
+    <text class="empty-title">还没有照片/视频</text>
+    <text class="empty-desc">记录鹦鹉成长的第一个瞬间吧</text>
+    <button class="btn btn-primary" bindtap="uploadPhoto">上传第一张照片</button>
+  </view>
+
+  <!-- 照片列表 -->
+  <view class="media-grid" wx:if="{{mediaList.length > 0}}">
+    <view class="media-item" wx:for="{{mediaList}}" wx:key="id" bindtap="previewMedia" data-index="{{index}}">
+      <image class="media-thumb" src="{{item.path}}" mode="aspectFill" wx:if="{{item.type === 'photo'}}" />
+      <view class="video-thumb" wx:else>
+        <image class="media-thumb" src="{{item.path}}" mode="aspectFill" />
+        <view class="play-icon">▶</view>
+        <view class="duration">{{item.duration || '5s'}}</view>
+      </view>
+      
+      <!-- 信息覆盖层 -->
+      <view class="media-overlay">
+        <view class="media-date">{{item.date}}</view>
+        <view class="media-caption">{{item.caption || '暂无说明'}}</view>
+      </view>
+      
+      <!-- 操作按钮 -->
+      <view class="media-actions">
+        <view class="action-icon" bindtap="toggleFavorite" data-id="{{item.id}}">
+          {{item.favorite ? '⭐' : '☆'}}
+        </view>
+        <view class="action-icon" bindtap="deleteMedia" data-id="{{item.id}}">
+          🗑️
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 时间轴视图（按月份分组） -->
+  <view class="timeline" wx:if="{{groupedMedia.length > 0}}">
+    <view class="month-group" wx:for="{{groupedMedia}}" wx:key="month">
+      <view class="month-header">{{item.month}}</view>
+      <view class="media-grid">
+        <view class="media-item" wx:for="{{item.items}}" wx:key="id" bindtap="previewMedia" data-index="{{index}}">
+          <image class="media-thumb" src="{{item.path}}" mode="aspectFill" wx:if="{{item.type === 'photo'}}" />
+          <view class="video-thumb" wx:else>
+            <image class="media-thumb" src="{{item.path}}" mode="aspectFill" />
+            <view class="play-icon">▶</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

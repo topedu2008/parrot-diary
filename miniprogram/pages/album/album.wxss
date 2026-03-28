@@ -1,0 +1,207 @@
+/* 相册页面样式 */
+
+/* 顶部操作栏 */
+.header {
+  padding: 16px;
+  background: var(--card-color);
+  margin-bottom: 12px;
+}
+
+.header-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.header-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 16px;
+  background: var(--primary-color);
+  color: white;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+.action-icon {
+  font-size: 16px;
+}
+
+/* 筛选器 */
+.filter-bar {
+  background: var(--card-color);
+  padding: 12px 0;
+  margin-bottom: 12px;
+}
+
+.filter-scroll {
+  white-space: nowrap;
+}
+
+.filter-item {
+  display: inline-block;
+  padding: 8px 16px;
+  margin: 0 4px;
+  border-radius: 20px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  background: var(--bg-color);
+}
+
+.filter-item.active {
+  background: var(--primary-color);
+  color: white;
+}
+
+/* 媒体网格 */
+.media-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding: 0 8px;
+}
+
+.media-item {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--bg-color);
+}
+
+.media-thumb {
+  width: 100%;
+  height: 100%;
+}
+
+/* 视频缩略图 */
+.video-thumb {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.play-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 16px;
+}
+
+.duration {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+}
+
+/* 信息覆盖层 */
+.media-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+  padding: 20px 8px 8px;
+  color: white;
+}
+
+.media-date {
+  font-size: 11px;
+  opacity: 0.9;
+  margin-bottom: 2px;
+}
+
+.media-caption {
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 操作按钮 */
+.media-actions {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  gap: 8px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.media-item:active .media-actions {
+  opacity: 1;
+}
+
+.media-actions .action-icon {
+  width: 32px;
+  height: 32px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+/* 时间轴视图 */
+.timeline {
+  padding: 8px;
+}
+
+.month-group {
+  margin-bottom: 24px;
+}
+
+.month-header {
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--primary-color);
+  margin-bottom: 12px;
+  padding-left: 8px;
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.empty-icon {
+  font-size: 80px;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.empty-title {
+  font-size: 18px;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.empty-desc {
+  font-size: 14px;
+  color: var(--text-secondary);
+  display: block;
+  margin-bottom: 24px;
+}

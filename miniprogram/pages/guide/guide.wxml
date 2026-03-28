@@ -1,0 +1,104 @@
+<!--饲养指南页面 - 鹦鹉成长日记-->
+<view class="container">
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <view class="search-input" bindtap="searchGuide">
+      <text class="search-icon">🔍</text>
+      <text class="search-placeholder">搜索饲养技巧...</text>
+    </view>
+    <view class="contribute-btn" bindtap="contribute">
+      <text>投稿</text>
+    </view>
+  </view>
+
+  <!-- 分类导航 -->
+  <view class="category-grid">
+    <view class="category-item" bindtap="filterCategory" data-cat="food">
+      <text class="category-icon">🍽️</text>
+      <text class="category-name">饮食</text>
+      <text class="category-count">{{stats.food}}篇</text>
+    </view>
+    <view class="category-item" bindtap="filterCategory" data-cat="environment">
+      <text class="category-icon">🏠</text>
+      <text class="category-name">环境</text>
+      <text class="category-count">{{stats.environment}}篇</text>
+    </view>
+    <view class="category-item" bindtap="filterCategory" data-cat="health">
+      <text class="category-icon">💊</text>
+      <text class="category-name">健康</text>
+      <text class="category-count">{{stats.health}}篇</text>
+    </view>
+    <view class="category-item" bindtap="filterCategory" data-cat="behavior">
+      <text class="category-icon">🎭</text>
+      <text class="category-name">行为</text>
+      <text class="category-count">{{stats.behavior}}篇</text>
+    </view>
+  </view>
+
+  <!-- 筛选标签 -->
+  <view class="filter-tags">
+    <view class="tag-item {{currentFilter === 'all' ? 'active' : ''}}" bindtap="setFilter" data-filter="all">
+      全部
+    </view>
+    <view class="tag-item {{currentFilter === 'official' ? 'active' : ''}}" bindtap="setFilter" data-filter="official">
+      官方
+    </view>
+    <view class="tag-item {{currentFilter === 'user' ? 'active' : ''}}" bindtap="setFilter" data-filter="user">
+      用户投稿
+    </view>
+  </view>
+
+  <!-- 推荐文章 -->
+  <view class="section-title">⭐ 编辑推荐</view>
+  <view class="recommended-list">
+    <view class="article-card card" wx:for="{{recommended}}" wx:key="id" bindtap="viewDetail" data-id="{{item.id}}">
+      <view class="article-tag danger" wx:if="{{item.difficulty === 3}}">⚠️ 危险</view>
+      <view class="article-tag" wx:elif="{{item.difficulty === 2}}">📋 进阶</view>
+      <view class="article-tag primary" wx:else>⭐ 入门</view>
+      
+      <view class="article-title">{{item.title}}</view>
+      <view class="article-summary">{{item.summary}}</view>
+      
+      <view class="article-meta">
+        <view class="meta-item">
+          <text class="meta-icon">👁️</text>
+          <text>{{item.views}}</text>
+        </view>
+        <view class="meta-item">
+          <text class="meta-icon">⭐</text>
+          <text>{{item.favorites}}</text>
+        </view>
+        <view class="meta-item">
+          <text class="meta-icon">⏱️</text>
+          <text>{{item.readTime}}分钟</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 最新文章 -->
+  <view class="section-title">📚 最新文章</view>
+  <view class="article-list">
+    <view class="article-item card" wx:for="{{articles}}" wx:key="id" bindtap="viewDetail" data-id="{{item.id}}">
+      <view class="article-header">
+        <view class="article-category-tag">{{item.category}}</view>
+        <view class="article-source" wx:if="{{item.source === 'official'}}">官方</view>
+        <view class="article-source user" wx:else>用户</view>
+      </view>
+      
+      <view class="article-title-small">{{item.title}}</view>
+      
+      <view class="article-footer">
+        <view class="article-date">{{item.updatedAt}}</view>
+        <view class="article-difficulty">
+          <text wx:for="{{item.difficulty}}" wx:key="*this" class="star">⭐</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 加载更多 -->
+  <view class="load-more" wx:if="{{hasMore}}">
+    <text>加载更多...</text>
+  </view>
+</view>
