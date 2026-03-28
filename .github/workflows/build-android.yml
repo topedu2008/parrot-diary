@@ -50,7 +50,6 @@ jobs:
       # 5. 安装依赖
       - name: Install Dependencies
         run: |
-          cd android
           npm ci
 
       # 6. 同步 Capacitor
@@ -62,7 +61,8 @@ jobs:
       - name: Build APK
         run: |
           cd android
-          ./gradlew assembleDebug
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
 
       # 8. 上传 APK
       - name: Upload APK
