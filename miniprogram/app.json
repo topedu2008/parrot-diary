@@ -1,0 +1,69 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/album/album",
+    "pages/guide/guide",
+    "pages/training/training",
+    "pages/diary/diary",
+    "pages/profile/profile",
+    "pages/album/upload",
+    "pages/album/detail",
+    "pages/guide/detail",
+    "pages/guide/contribute",
+    "pages/training/detail",
+    "pages/training/recording",
+    "pages/training/records",
+    "pages/training/achievements",
+    "pages/diary/write",
+    "pages/diary/detail",
+    "pages/profile/add-parrot",
+    "pages/profile/settings",
+    "pages/profile/stats"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#4CAF50",
+    "navigationBarTitleText": "鹦鹉成长日记",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#4CAF50",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "assets/images/tab-home.png",
+        "selectedIconPath": "assets/images/tab-home-active.png"
+      },
+      {
+        "pagePath": "pages/album/album",
+        "text": "相册",
+        "iconPath": "assets/images/tab-album.png",
+        "selectedIconPath": "assets/images/tab-album-active.png"
+      },
+      {
+        "pagePath": "pages/guide/guide",
+        "text": "指南",
+        "iconPath": "assets/images/tab-guide.png",
+        "selectedIconPath": "assets/images/tab-guide-active.png"
+      },
+      {
+        "pagePath": "pages/training/training",
+        "text": "训练",
+        "iconPath": "assets/images/tab-training.png",
+        "selectedIconPath": "assets/images/tab-training-active.png"
+      },
+      {
+        "pagePath": "pages/diary/diary",
+        "text": "日记",
+        "iconPath": "assets/images/tab-diary.png",
+        "selectedIconPath": "assets/images/tab-diary-active.png"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json",
+  "style": "v2"
+}
