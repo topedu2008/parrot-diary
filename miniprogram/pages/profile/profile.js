@@ -12,7 +12,8 @@ Page({
       mediaCount: 0,
       trainingCount: 0,
       diaryCount: 0
-    }
+    },
+    latestDiary: ''
   },
 
   onLoad() {
@@ -44,7 +45,21 @@ Page({
 
     // 统计信息
     const stats = this.calculateStats(parrots);
-    this.setData({ stats });
+    
+    // 最新日记
+    let latestDiary = '暂无';
+    if (parrots.length > 0) {
+      const diaries = storage.getParrotDiaries(parrots[0].id);
+      if (diaries.length > 0) {
+        const date = new Date(diaries[0].createdAt);
+        latestDiary = `${date.getMonth() + 1}月${date.getDate()}日`;
+      }
+    }
+    
+    this.setData({ 
+      stats,
+      latestDiary
+    });
   },
 
   /**
@@ -136,8 +151,17 @@ Page({
    * 跳转到日记
    */
   goToDiary() {
-    wx.switchTab({
-      url: '/pages/diary/diary'
+    wx.navigateTo({
+      url: '/pages/diary/diary/diary'
+    });
+  },
+
+  /**
+   * 写日记
+   */
+  writeDiary() {
+    wx.navigateTo({
+      url: '/pages/diary/write/write'
     });
   },
 

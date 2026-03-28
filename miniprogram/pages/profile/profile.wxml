@@ -23,7 +23,7 @@
     <view class="stat-divider"></view>
     <view class="stat-item" bindtap="goToAlbum">
       <text class="stat-number">{{stats.mediaCount}}</text>
-      <text class="stat-label">照片/视频</text>
+      <text class="stat-label">照片</text>
     </view>
     <view class="stat-divider"></view>
     <view class="stat-item" bindtap="goToTraining">
@@ -51,6 +51,19 @@
     <view class="add-parrot card" bindtap="addParrot">
       <view class="add-icon">➕</view>
       <view class="add-text">添加鹦鹉</view>
+    </view>
+  </view>
+
+  <!-- 日记入口 -->
+  <view class="section-title">我的日记</view>
+  <view class="diary-entry card" bindtap="goToDiary">
+    <view class="diary-header">
+      <view class="diary-title">📝 鹦鹉日记</view>
+      <view class="write-btn" bindtap="writeDiary">✏️ 写日记</view>
+    </view>
+    <view class="diary-stats">
+      <text class="diary-stat">共 {{stats.diaryCount}} 篇</text>
+      <text class="diary-stat">最近：{{latestDiary || '暂无'}}</text>
     </view>
   </view>
 

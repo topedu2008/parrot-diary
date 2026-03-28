@@ -143,6 +143,44 @@
   color: var(--primary-color);
 }
 
+/* 日记入口 */
+.diary-entry {
+  margin-bottom: 12px;
+}
+
+.diary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.diary-title {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.write-btn {
+  padding: 6px 16px;
+  background: var(--primary-color);
+  color: white;
+  border-radius: 20px;
+  font-size: 13px;
+}
+
+.diary-stats {
+  display: flex;
+  gap: 16px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.diary-stat {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
 /* 菜单区域 */
 .menu-section {
   padding: 0 16px 16px;

@@ -55,12 +55,6 @@
         "text": "训练",
         "iconPath": "assets/images/tab-training.png",
         "selectedIconPath": "assets/images/tab-training-active.png"
-      },
-      {
-        "pagePath": "pages/diary/diary",
-        "text": "日记",
-        "iconPath": "assets/images/tab-diary.png",
-        "selectedIconPath": "assets/images/tab-diary-active.png"
       }
     ]
   },
