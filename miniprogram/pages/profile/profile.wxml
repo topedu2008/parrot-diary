@@ -4,7 +4,7 @@
   <view class="user-card card">
     <view class="user-header">
       <view class="avatar" bindtap="editProfile">
-        <text class="avatar-emoji">👤</text>
+        <image class="avatar-image" src="/assets/images/logo.png" mode="aspectFit" />
       </view>
       <view class="user-info" bindtap="editProfile">
         <view class="user-name">{{userInfo.nickName || '鹦鹉主人'}}</view>

@@ -35,32 +35,32 @@
       {
         "pagePath": "pages/index/index",
         "text": "首页",
-        "iconPath": "assets/images/tab-home.png",
-        "selectedIconPath": "assets/images/tab-home-active.png"
+        "iconPath": "assets/images/tab-home.svg",
+        "selectedIconPath": "assets/images/tab-home-active.svg"
       },
       {
         "pagePath": "pages/album/album",
         "text": "相册",
-        "iconPath": "assets/images/tab-album.png",
-        "selectedIconPath": "assets/images/tab-album-active.png"
+        "iconPath": "assets/images/tab-album.svg",
+        "selectedIconPath": "assets/images/tab-album-active.svg"
       },
       {
         "pagePath": "pages/guide/guide",
         "text": "指南",
-        "iconPath": "assets/images/tab-guide.png",
-        "selectedIconPath": "assets/images/tab-guide-active.png"
+        "iconPath": "assets/images/tab-guide.svg",
+        "selectedIconPath": "assets/images/tab-guide-active.svg"
       },
       {
         "pagePath": "pages/training/training",
         "text": "训练",
-        "iconPath": "assets/images/tab-training.png",
-        "selectedIconPath": "assets/images/tab-training-active.png"
+        "iconPath": "assets/images/tab-training.svg",
+        "selectedIconPath": "assets/images/tab-training-active.svg"
       },
       {
         "pagePath": "pages/profile/profile",
         "text": "我的",
-        "iconPath": "assets/images/tab-profile.png",
-        "selectedIconPath": "assets/images/tab-profile-active.png"
+        "iconPath": "assets/images/tab-profile.svg",
+        "selectedIconPath": "assets/images/tab-profile-active.svg"
       }
     ]
   },
