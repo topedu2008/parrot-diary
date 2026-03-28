@@ -55,6 +55,12 @@
         "text": "训练",
         "iconPath": "assets/images/tab-training.png",
         "selectedIconPath": "assets/images/tab-training-active.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "assets/images/tab-profile.png",
+        "selectedIconPath": "assets/images/tab-profile-active.png"
       }
     ]
   },
