@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#4CAF50">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="format-detection" content="telephone=no">
+  
+  <title>鹦鹉成长日记</title>
+  <meta name="description" content="专为鹦鹉主人设计的记录工具">
+  
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: #f5f5f5;
+      color: #333;
+      line-height: 1.6;
+      padding-bottom: 70px;
+    }
+
+    /* 顶部导航 */
+    .header {
+      background: linear-gradient(135deg, #4CAF50, #45a049);
+      color: white;
+      padding: 20px 16px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .header h1 {
+      font-size: 20px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* 底部导航栏 */
+    .tab-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      display: flex;
+      justify-content: space-around;
+      padding: 8px 0;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+      z-index: 100;
+    }
+
+    .tab-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: #999;
+      font-size: 11px;
+      padding: 4px 12px;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .tab-item.active {
+      color: #4CAF50;
+    }
+
+    .tab-icon {
+      font-size: 22px;
+    }
+
+    /* 页面容器 */
+    .page {
+      display: none;
+      padding: 16px;
+      animation: fadeIn 0.3s;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 卡片样式 */
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #333;
+    }
+
+    /* 鹦鹉卡片 */
+    .parrot-card {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .parrot-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #FFD700, #FFA500);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      flex-shrink: 0;
+    }
+
+    .parrot-info {
+      flex: 1;
+    }
+
+    .parrot-name {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .parrot-detail {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 2px;
+    }
+
+    .parrot-stats {
+      display: flex;
+      gap: 16px;
+      margin-top: 8px;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 16px;
+      font-weight: 600;
+      color: #4CAF50;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: #999;
+    }
+
+    /* 快捷功能 */
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .action-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 12px 8px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .action-btn:active {
+      transform: scale(0.95);
+    }
+
+    .action-icon {
+      font-size: 28px;
+    }
+
+    .action-label {
+      font-size: 12px;
+      color: #666;
+    }
+
+    /* 今日提醒 */
+    .reminder-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .reminder-item:last-child {
+      border-bottom: none;
+    }
+
+    .reminder-time {
+      font-size: 14px;
+      font-weight: 500;
+      color: #666;
+      min-width: 50px;
+    }
+
+    .reminder-text {
+      flex: 1;
+      font-size: 14px;
+    }
+
+    .reminder-checkbox {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #ddd;
+      border-radius: 50%;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .reminder-checkbox.checked {
+      background: #4CAF50;
+      border-color: #4CAF50;
+    }
+
+    .reminder-checkbox.checked::after {
+      content: '✓';
+      position: absolute;
+      color: white;
+      font-size: 12px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    /* 照片网格 */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .photo-item {
+      aspect-ratio: 1;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .photo-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* 饲养指南列表 */
+    .guide-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .guide-item {
+      display: flex;
+      gap: 12px;
+      padding: 12px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      cursor: pointer;
+    }
+
+    .guide-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .guide-icon.food { background: #FFE0B2; }
+    .guide-icon.environment { background: #C8E6C9; }
+    .guide-icon.health { background: #FFCDD2; }
+    .guide-icon.behavior { background: #BBDEFB; }
+
+    .guide-content {
+      flex: 1;
+    }
+
+    .guide-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .guide-summary {
+      font-size: 12px;
+      color: #666;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* 音频训练 */
+    .audio-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .audio-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .audio-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .audio-info {
+      flex: 1;
+    }
+
+    .audio-title {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .audio-duration {
+      font-size: 12px;
+      color: #999;
+    }
+
+    .audio-play {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #4CAF50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      cursor: pointer;
+    }
+
+    /* 日记列表 */
+    .diary-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .diary-item {
+      background: white;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .diary-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .diary-date {
+      font-size: 13px;
+      color: #999;
+    }
+
+    .diary-mood {
+      font-size: 20px;
+    }
+
+    .diary-content {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #666;
+      margin-bottom: 12px;
+    }
+
+    .diary-images {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .diary-image {
+      aspect-ratio: 1;
+      border-radius: 8px;
+      background: #eee;
+    }
+
+    /* 浮动按钮 */
+    .fab {
+      position: fixed;
+      bottom: 80px;
+      right: 16px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #4CAF50, #45a049);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+      cursor: pointer;
+      z-index: 99;
+    }
+
+    /* 空状态 */
+    .empty-state {
+      text-align: center;
+      padding: 40px 16px;
+      color: #999;
+    }
+
+    .empty-icon {
+      font-size: 64px;
+      margin-bottom: 16px;
+    }
+
+    .empty-text {
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    /* 按钮 */
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.2s;
+    }
+
+    .btn:active {
+      transform: scale(0.95);
+    }
+
+    .btn-primary {
+      background: #4CAF50;
+      color: white;
+    }
+
+    .btn-outline {
+      background: white;
+      color: #4CAF50;
+      border: 2px solid #4CAF50;
+    }
+
+    /* 提示框 */
+    .toast {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: rgba(0,0,0,0.8);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 24px;
+      font-size: 14px;
+      opacity: 0;
+      transition: all 0.3s;
+      z-index: 1000;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* 模态框 */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      width: 90%;
+      max-width: 400px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: #4CAF50;
+    }
+
+    textarea.form-input {
+      min-height: 100px;
+      resize: vertical;
+    }
+  </style>
+</head>
+<body>
+  <!-- 顶部导航 -->
+  <header class="header">
+    <h1>🦜 鹦鹉成长日记</h1>
+  </header>
+
+  <!-- 首页 -->
+  <div id="page-home" class="page active">
+    <!-- 鹦鹉卡片 -->
+    <div class="card">
+      <div class="parrot-card">
+        <div class="parrot-avatar">🦜</div>
+        <div class="parrot-info">
+          <div class="parrot-name">小灰</div>
+          <div class="parrot-detail">玄凤鹦鹉 | 1 岁 3 个月</div>
+          <div class="parrot-stats">
+            <div class="stat-item">
+              <div class="stat-value">456</div>
+              <div class="stat-label">饲养天数</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">128</div>
+              <div class="stat-label">照片</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">89</div>
+              <div class="stat-label">训练</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 快捷功能 -->
+    <div class="quick-actions">
+      <div class="action-btn" onclick="showToast('拍照功能开发中')">
+        <div class="action-icon">📷</div>
+        <div class="action-label">拍照</div>
+      </div>
+      <div class="action-btn" onclick="switchTab('training')">
+        <div class="action-icon">🎵</div>
+        <div class="action-label">训练</div>
+      </div>
+      <div class="action-btn" onclick="showDiaryModal()">
+        <div class="action-icon">📝</div>
+        <div class="action-label">日记</div>
+      </div>
+      <div class="action-btn" onclick="showToast('统计功能开发中')">
+        <div class="action-icon">📊</div>
+        <div class="action-label">统计</div>
+      </div>
+    </div>
+
+    <!-- 今日提醒 -->
+    <div class="card">
+      <div class="card-title">📅 今日提醒</div>
+      <div class="reminder-list">
+        <div class="reminder-item">
+          <div class="reminder-time">08:00</div>
+          <div class="reminder-text">喂食</div>
+          <div class="reminder-checkbox checked" onclick="toggleReminder(this)"></div>
+        </div>
+        <div class="reminder-item">
+          <div class="reminder-time">12:00</div>
+          <div class="reminder-text">换水</div>
+          <div class="reminder-checkbox checked" onclick="toggleReminder(this)"></div>
+        </div>
+        <div class="reminder-item">
+          <div class="reminder-time">18:00</div>
+          <div class="reminder-text">训练</div>
+          <div class="reminder-checkbox" onclick="toggleReminder(this)"></div>
+        </div>
+        <div class="reminder-item">
+          <div class="reminder-time">21:00</div>
+          <div class="reminder-text">回笼休息</div>
+          <div class="reminder-checkbox" onclick="toggleReminder(this)"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 最近照片 -->
+    <div class="card">
+      <div class="card-title">📸 最近照片</div>
+      <div class="photo-grid">
+        <div class="photo-item">🦜</div>
+        <div class="photo-item">🎵</div>
+        <div class="photo-item">🍽️</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 相册页 -->
+  <div id="page-album" class="page">
+    <div class="card">
+      <div class="card-title">📸 鹦鹉相册</div>
+      <div class="photo-grid" style="grid-template-columns: repeat(3, 1fr); gap: 8px;">
+        <div class="photo-item">🦜</div>
+        <div class="photo-item">🎵</div>
+        <div class="photo-item">🍽️</div>
+        <div class="photo-item">😴</div>
+        <div class="photo-item">🎮</div>
+        <div class="photo-item">🌟</div>
+      </div>
+    </div>
+    <div class="empty-state">
+      <div class="empty-icon">📷</div>
+      <div class="empty-text">更多照片正在加载中...</div>
+    </div>
+  </div>
+
+  <!-- 饲养指南页 -->
+  <div id="page-guide" class="page">
+    <div class="guide-list">
+      <div class="guide-item">
+        <div class="guide-icon food">🍽️</div>
+        <div class="guide-content">
+          <div class="guide-title">鹦鹉绝对不能吃的 10 种食物</div>
+          <div class="guide-summary">有些对人类安全的食物对鹦鹉却是致命的...</div>
+        </div>
+      </div>
+      <div class="guide-item">
+        <div class="guide-icon environment">🏠</div>
+        <div class="guide-content">
+          <div class="guide-title">如何选择合适的鹦鹉笼？</div>
+          <div class="guide-summary">笼子是鹦鹉的家，选对笼子至关重要...</div>
+        </div>
+      </div>
+      <div class="guide-item">
+        <div class="guide-icon health">💊</div>
+        <div class="guide-content">
+          <div class="guide-title">如何判断鹦鹉是否生病？</div>
+          <div class="guide-summary">鹦鹉会隐藏病情，学会识别早期症状...</div>
+        </div>
+      </div>
+      <div class="guide-item">
+        <div class="guide-icon behavior">🎭</div>
+        <div class="guide-content">
+          <div class="guide-title">读懂玄凤鹦鹉的肢体语言</div>
+          <div class="guide-summary">玄凤不会说话，但它们的身体会"说话"...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 音频训练页 -->
+  <div id="page-training" class="page">
+    <div class="card">
+      <div class="card-title">🎵 音频训练</div>
+      <div class="audio-list">
+        <div class="audio-item">
+          <div class="audio-icon">🔔</div>
+          <div class="audio-info">
+            <div class="audio-title">喂食信号音</div>
+            <div class="audio-duration">5 秒 | ⭐ 核心</div>
+          </div>
+          <div class="audio-play" onclick="playAudio(this)">▶</div>
+        </div>
+        <div class="audio-item">
+          <div class="audio-icon">🔔</div>
+          <div class="audio-info">
+            <div class="audio-title">欢迎主人音</div>
+            <div class="audio-duration">10 秒 | ⭐ 核心</div>
+          </div>
+          <div class="audio-play" onclick="playAudio(this)">▶</div>
+        </div>
+        <div class="audio-item">
+          <div class="audio-icon">🎤</div>
+          <div class="audio-info">
+            <div class="audio-title">小星星旋律</div>
+            <div class="audio-duration">45 秒 | ⭐ 入门</div>
+          </div>
+          <div class="audio-play" onclick="playAudio(this)">▶</div>
+        </div>
+        <div class="audio-item">
+          <div class="audio-icon">🧠</div>
+          <div class="audio-info">
+            <div class="audio-title">你好指令</div>
+            <div class="audio-duration">10 秒 | ⭐ 入门</div>
+          </div>
+          <div class="audio-play" onclick="playAudio(this)">▶</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 日记页 -->
+  <div id="page-diary" class="page">
+    <div class="diary-list">
+      <div class="diary-item">
+        <div class="diary-header">
+          <div class="diary-date">3 月 28 日 星期六</div>
+          <div class="diary-mood">😊</div>
+        </div>
+        <div class="diary-content">
+          今天小灰学会了新的技能！听到喂食信号音会立即跑到食盆等待，太聪明了～
+        </div>
+      </div>
+      <div class="diary-item">
+        <div class="diary-header">
+          <div class="diary-date">3 月 25 日 星期三</div>
+          <div class="diary-mood">😴</div>
+        </div>
+        <div class="diary-content">
+          今天给小灰洗澡，它好像很享受，在水里扑腾了好久。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 底部导航栏 -->
+  <nav class="tab-bar">
+    <div class="tab-item active" onclick="switchTab('home')">
+      <div class="tab-icon">🏠</div>
+      <div>首页</div>
+    </div>
+    <div class="tab-item" onclick="switchTab('album')">
+      <div class="tab-icon">📷</div>
+      <div>相册</div>
+    </div>
+    <div class="tab-item" onclick="switchTab('guide')">
+      <div class="tab-icon">📖</div>
+      <div>指南</div>
+    </div>
+    <div class="tab-item" onclick="switchTab('training')">
+      <div class="tab-icon">🎵</div>
+      <div>训练</div>
+    </div>
+    <div class="tab-item" onclick="switchTab('diary')">
+      <div class="tab-icon">📝</div>
+      <div>日记</div>
+    </div>
+  </nav>
+
+  <!-- 浮动按钮 -->
+  <div class="fab" onclick="showDiaryModal()">✏️</div>
+
+  <!-- 提示框 -->
+  <div id="toast" class="toast">操作成功</div>
+
+  <!-- 写日记模态框 -->
+  <div id="diary-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-title">📝 写日记</div>
+      <div class="form-group">
+        <label class="form-label">心情</label>
+        <div style="display: flex; gap: 12px; font-size: 24px;">
+          <span onclick="selectMood(this)">😊</span>
+          <span onclick="selectMood(this)">😢</span>
+          <span onclick="selectMood(this)">😴</span>
+          <span onclick="selectMood(this)">🎉</span>
+          <span onclick="selectMood(this)">😤</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">内容</label>
+        <textarea class="form-input" placeholder="记录今天和小灰的故事..."></textarea>
+      </div>
+      <div style="display: flex; gap: 12px;">
+        <button class="btn btn-outline" style="flex: 1;" onclick="closeDiaryModal()">取消</button>
+        <button class="btn btn-primary" style="flex: 1;" onclick="saveDiary()">发布</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 切换标签页
+    function switchTab(pageId) {
+      // 隐藏所有页面
+      document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+      });
+      
+      // 显示目标页面
+      document.getElementById('page-' + pageId).classList.add('active');
+      
+      // 更新底部导航
+      document.querySelectorAll('.tab-item').forEach((item, index) => {
+        const pages = ['home', 'album', 'guide', 'training', 'diary'];
+        if (pages[index] === pageId) {
+          item.classList.add('active');
+        } else {
+          item.classList.remove('active');
+        }
+      });
+      
+      // 滚动到顶部
+      window.scrollTo(0, 0);
+    }
+
+    // 切换提醒
+    function toggleReminder(checkbox) {
+      checkbox.classList.toggle('checked');
+      showToast(checkbox.classList.contains('checked') ? '已完成' : '未完成');
+    }
+
+    // 播放音频
+    function playAudio(btn) {
+      const isPlaying = btn.textContent === '⏸';
+      
+      // 停止所有播放
+      document.querySelectorAll('.audio-play').forEach(b => {
+        b.textContent = '▶';
+      });
+      
+      if (!isPlaying) {
+        btn.textContent = '⏸';
+        showToast('播放中...');
+        
+        // 模拟播放完成
+        setTimeout(() => {
+          btn.textContent = '▶';
+        }, 3000);
+      }
+    }
+
+    // 显示日记模态框
+    function showDiaryModal() {
+      document.getElementById('diary-modal').classList.add('show');
+    }
+
+    // 关闭日记模态框
+    function closeDiaryModal() {
+      document.getElementById('diary-modal').classList.remove('show');
+    }
+
+    // 选择心情
+    function selectMood(element) {
+      document.querySelectorAll('.form-group').forEach(group => {
+        if (group.querySelector('.form-label')?.textContent === '心情') {
+          group.querySelectorAll('span').forEach(span => {
+            span.style.opacity = '0.5';
+          });
+          element.style.opacity = '1';
+        }
+      });
+    }
+
+    // 保存日记
+    function saveDiary() {
+      closeDiaryModal();
+      showToast('日记已保存');
+    }
+
+    // 显示提示
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2000);
+    }
+
+    // PWA 安装提示
+    let deferredPrompt;
+    
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      showToast('可以添加到主屏幕了');
+    });
+
+    // 注册 Service Worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(() => {
+        console.log('Service Worker 注册失败');
+      });
+    }
+  </script>
+</body>
+</html>
